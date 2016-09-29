@@ -1,7 +1,8 @@
-module.exports = (content) => `<!doctype html>
+module.exports = (content, title) => `<!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
+        <title>${title}</title>
         <style>
             * {
                 font-family: monospace;

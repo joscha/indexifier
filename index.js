@@ -30,5 +30,5 @@ module.exports = (dir, fileTypes = null, isHtml = false) => {
 
     const archyTree = dirTreeToArchyTree(tree, dir, isHtml);
     const outTree = archy(archyTree);
-    return isHtml ? wrapHtml(outTree) : outTree;
+    return isHtml ? wrapHtml(outTree, tree.name) : outTree;
 }
