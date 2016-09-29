@@ -1,0 +1,46 @@
+{
+  "name": "indexifier",
+  "description": "Generate an index from a directory",
+  "main": "index.js",
+  "bin": "bin/index.js",
+  "engines": {
+    "node": ">=6.1"
+  },
+  "scripts": {
+    "test": "mocha",
+    "tdd": "mocha --watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "keywords": [
+    "index",
+    "generate",
+    "index.html",
+    "dirtree",
+    "tree",
+    "cli",
+    "filetree"
+  ],
+  "author": "Joscha Feth <joscha@feth.com>",
+  "license": "MIT",
+  "dependencies": {
+    "archy": "^1.0.0",
+    "commander": "^2.9.0",
+    "create-error": "^0.3.1",
+    "directory-tree": "^1.1.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "mocha": "^3.1.0",
+    "semantic-release": "^4.3.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joscha/indexifier.git"
+  }
+}
