@@ -60,6 +60,7 @@ indexifier --extensions .html --html .
 └── <a href="./e.html">b.html</a><br/>
 <!-- ... -->
 ```
+> The links are always relative to the given directory.
 
 ### Node API
 
