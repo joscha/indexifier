@@ -65,7 +65,10 @@ indexifier --extensions .html --html .
 ### Node API
 
 ```
-indexifier(directory=String [, opts={}]);
+indexifier(String directory [, opts={
+                                     fileTypes: Array.<String>
+                                     isHtml: Boolean
+                                    }]);
 ```
 
 #### Install
