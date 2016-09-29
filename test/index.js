@@ -20,13 +20,13 @@ describe('indexifier', () => {
         });
 
         it('filtered by extensions', () => {
-            const ret = indexifier(dir, ['.html']);
+            const ret = indexifier(dir, { fileTypes: ['.html'] });
             ret.should.be.equal(file('test/fixtures/1.filtered.txt'));
         });
 
         describe('html', () => {
             it('to HTML', () => {
-                const ret = indexifier(dir, null, true);
+                const ret = indexifier(dir, { isHtml: true });
                 ret.should.be.equal(file('test/fixtures/1.html'));
             });
         });

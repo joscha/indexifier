@@ -65,7 +65,7 @@ indexifier --extensions .html --html .
 ### Node API
 
 ```
-indexifier(directory [[, extensionArray=null], generateHTML=false]);
+indexifier(directory=String [, opts={}]);
 ```
 
 #### Install
@@ -89,7 +89,7 @@ Tree of HTML files:
 ```js
 const indexifier = require('indexifier');
 
-const treeOfHtmlFiles = indexifier(__dirname, ['.html']);
+const treeOfHtmlFiles = indexifier(__dirname, { fileTypes: ['.html'] });
 ```
 
 or for HTML output:
@@ -97,5 +97,8 @@ or for HTML output:
 ```js
 const indexifier = require('indexifier');
 
-const treeOfJpegFiles = indexifier(__dirname, ['.jpg', '.jpeg'], true);
+const treeOfJpegFiles = indexifier(__dirname, {
+    fileTypes: ['.jpg', '.jpeg'],
+    isHtml: true
+});
 ```

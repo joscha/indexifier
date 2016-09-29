@@ -15,7 +15,10 @@ program
   .option('-h, --html', 'Enable to generate HTML output')
   .action((dir) => {
     try {
-      console.log(indexifier(dir, program.extensions, program.html));
+      console.log(indexifier(dir, {
+          fileTypes: program.extensions,
+          isHtml: program.html
+      }));
     } catch(e) {
       console.error(e.message);
       process.exit(1);
