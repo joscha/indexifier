@@ -33,7 +33,7 @@
     "chai-files": "^1.4.0",
     "cz-conventional-changelog": "^1.2.0",
     "mocha": "^3.1.0",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^6.3.2"
   },
   "config": {
     "commitizen": {

@@ -1,5 +1,7 @@
 # Generate an index for a given directory
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/joscha/indexifier.svg)](https://greenkeeper.io/)
+
 [![Build status](https://img.shields.io/travis/joscha/indexifier/master.svg)](https://travis-ci.org/joscha/indexifier)
 [![npm](https://img.shields.io/npm/v/indexifier.svg)](https://www.npmjs.com/package/indexifier)
 ![npm](https://img.shields.io/npm/l/indexifier.svg)
