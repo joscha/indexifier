@@ -1,12 +1,11 @@
 const wrapHref = require('./wrapHref');
 
-module.exports = function dirTreeToArchyTree(node, cwd, isHtml) {
-    const label = isHtml ? wrapHref(node, cwd) : node.name;
+module.exports = function dirTreeToArchyTree(node, cwd, isHtml, linkFolders) {
     if (!node.children) {
-        return label;
+        return isHtml ? wrapHref(node, cwd) : node.name;
     }
     return {
-        label,
-        nodes: node.children.map((subTree) => dirTreeToArchyTree(subTree, cwd, isHtml))
+        label: (isHtml && linkFolders) ? wrapHref(node, cwd) : node.name,
+        nodes: node.children.map((subTree) => dirTreeToArchyTree(subTree, cwd, isHtml, linkFolders))
     };
 };

@@ -10,6 +10,7 @@ const { DirectoryInvalidError } = require('./exceptions');
 const defaultOpts = {
     fileTypes: null,
     isHtml: false,
+    linkFolders: true,
 };
 
 /**
@@ -31,11 +32,11 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { fileTypes, isHtml } = Object.assign({}, defaultOpts, opts);
+    const { fileTypes, isHtml, linkFolders } = Object.assign({}, defaultOpts, opts);
 
     const tree = dirTree(dir, fileTypes);
 
-    const archyTree = dirTreeToArchyTree(tree, dir, isHtml);
+    const archyTree = dirTreeToArchyTree(tree, dir, isHtml, linkFolders);
     const outTree = archy(archyTree);
     return isHtml ? wrapHtml(outTree, tree.name) : outTree;
 }

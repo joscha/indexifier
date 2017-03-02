@@ -10,7 +10,8 @@ module.exports = (content, title) => `<!doctype html>
         </style>
     </head>
     <body>
-        ${content}
+        <pre>
+${content}        </pre>
     </body>
 </html>
 `;

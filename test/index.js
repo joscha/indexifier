@@ -29,6 +29,11 @@ describe('indexifier', () => {
                 const ret = indexifier(dir, { isHtml: true });
                 ret.should.be.equal(file('test/fixtures/1.html'));
             });
+
+            it('w/o linking folders', () => {
+                const ret = indexifier(dir, { isHtml: true, linkFolders: false });
+                ret.should.be.equal(file('test/fixtures/1-no-link-folders.html'));
+            });
         });
     });
 });
