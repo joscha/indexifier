@@ -23,7 +23,7 @@ Options:
   -h, --help               output usage information
   -V, --version            output the version number
   -e, --extensions <list>  The extensions to take into account; defaults to .htm,.html
-  -h, --html               Enable to generate HTML output
+  -H, --html               Enable to generate HTML output
   -L, --no-link-folders    Do not link folders when in HTML output mode
 ```
 
