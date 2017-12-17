@@ -12,7 +12,7 @@ chai.should();
 const fixturesDir = path.join(__dirname, 'fixtures');
 
 describe('indexifier', () => {
-    describe('should be possible to transform a directory structure', () => {
+    describe('should be able to transform a directory structure', () => {
         const dir = path.join(fixturesDir, '1');
         it('as-is', () => {
             const ret = indexifier(dir);
@@ -35,5 +35,12 @@ describe('indexifier', () => {
                 ret.should.be.equal(file('test/fixtures/1-no-link-folders.html'));
             });
         });
+    });
+    it('can exclude files and folders', () => {
+        const dir = path.join(fixturesDir, '2');
+        const ret = indexifier(dir, {
+            exclude: /node_modules|a\.txt/,
+        });
+        ret.should.be.equal(file('test/fixtures/2.ignored.txt'));
     });
 });
