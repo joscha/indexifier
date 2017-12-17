@@ -1,16 +1,15 @@
 sudo: false
 language: node_js
 cache:
-  directories:
-    - node_modules
+  yarn: true
 notifications:
   email: false
 node_js:
   - 'stable'
-before_script:
-  - npm prune
+script:
+  - yarn test
 after_success:
-  - npm run semantic-release
+  - yarn run semantic-release
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

@@ -18,7 +18,9 @@
     "dirtree",
     "tree",
     "cli",
-    "filetree"
+    "filetree",
+    "directory-tree",
+    "directory-index"
   ],
   "author": "Joscha Feth <joscha@feth.com>",
   "license": "MIT",
@@ -26,14 +28,14 @@
     "archy": "^1.0.0",
     "commander": "^2.9.0",
     "create-error": "^0.3.1",
-    "directory-tree": "^1.1.1"
+    "directory-tree": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^4.0.1",
     "chai-files": "^1.4.0",
     "cz-conventional-changelog": "^2.0.0",
     "mocha": "^4.0.0",
-    "semantic-release": "^7.0.1"
+    "semantic-release": "^8.2.0"
   },
   "config": {
     "commitizen": {
