@@ -39,7 +39,7 @@ describe('indexifier', () => {
     it('can exclude files and folders', () => {
         const dir = path.join(fixturesDir, '2');
         const ret = indexifier(dir, {
-            exclude: /node_modules|a\.txt/,
+            exclude: 'node_modules|a.txt',
         });
         ret.should.be.equal(file('test/fixtures/2.ignored.txt'));
     });

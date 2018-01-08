@@ -37,7 +37,9 @@ module.exports = (dir, opts) => {
     const { exclude, fileTypes, isHtml, linkFolders } = Object.assign({}, defaultOpts, opts);
 
     const tree = dirTree(dir, {
-        exclude,
+        exclude: exclude
+            ? new RegExp(exclude)
+            : undefined,
         extensions: fileTypes && fileTypes.length
             ? new RegExp(`(?:${fileTypes.join('|').replace('.', '\\.')})$`)
             : undefined,
