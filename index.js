@@ -12,7 +12,19 @@ const defaultOpts = {
     isHtml: false,
     linkFolders: true,
     exclude: undefined,
+    emptyDirectories: true,
 };
+
+function filterEmptyDirectories(tree) {
+    if (tree.children && tree.children.length > 0) {
+        tree.children.forEach(child => {
+            if (child.type === 'directory') {
+                child.children = filterEmptyDirectories(child);
+            }
+        });
+    }
+    return tree.children = tree.children.filter(child => child.type === 'file' || child.children.length > 0);
+}
 
 /**
 * Generates a directory tree from the given directory and all sub-directories
@@ -34,9 +46,9 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { exclude, fileTypes, isHtml, linkFolders } = Object.assign({}, defaultOpts, opts);
+    const { exclude, fileTypes, isHtml, linkFolders, emptyDirectories } = Object.assign({}, defaultOpts, opts);
 
-    const tree = dirTree(dir, {
+    let tree = dirTree(dir, {
         exclude: exclude
             ? new RegExp(exclude)
             : undefined,
@@ -44,6 +56,10 @@ module.exports = (dir, opts) => {
             ? new RegExp(`(?:${fileTypes.join('|').replace('.', '\\.')})$`)
             : undefined,
     });
+
+    if (!emptyDirectories) {
+        filterEmptyDirectories(tree);
+    }
 
     const archyTree = dirTreeToArchyTree(tree, dir, isHtml, linkFolders);
     const outTree = archy(archyTree);

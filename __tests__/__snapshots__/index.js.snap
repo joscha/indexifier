@@ -6,6 +6,20 @@ exports[`indexifier can exclude files and folders 1`] = `
 "
 `;
 
+exports[`indexifier can ignore folders that do not contain files 1`] = `
+"3
+├── a.html
+└─┬ ignore
+  └── me
+"
+`;
+
+exports[`indexifier can ignore folders that do not contain files 2`] = `
+"3
+└── a.html
+"
+`;
+
 exports[`indexifier should be able to transform a directory structure as-is 1`] = `
 "1
 ├─┬ A

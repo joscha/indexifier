@@ -14,6 +14,7 @@ program
   .option('-e, --extensions <list>', 'The extensions to take into account; defaults to .htm,.html', list, ['.html', '.htm'])
   .option('-H, --html', 'Enable to generate HTML output')
   .option('-L, --no-link-folders', 'Do not link folders when in HTML output mode')
+  .option('-F, --no-empty-directories', 'Do not include empty directories')
   .option('-E, --exclude <regexp>', 'Exclude files and directories that are matched by this regular expression')
   .action((dir) => {
     try {
