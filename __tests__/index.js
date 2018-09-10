@@ -36,7 +36,7 @@ describe('indexifier', () => {
         });
         expect(ret).toMatchSnapshot();
     });
-    it.only('can ignore folders that do not contain files', () => {
+    it('can ignore folders that do not contain files', () => {
         const dir = path.join(fixturesDir, '3');
         expect(indexifier(dir, { fileTypes: ['.html'] })).toMatchSnapshot();
         expect(indexifier(dir, { fileTypes: ['.html'], emptyDirectories: false })).toMatchSnapshot();
