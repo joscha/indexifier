@@ -7,8 +7,8 @@
     "node": ">=6.1"
   },
   "scripts": {
-    "test": "mocha",
-    "tdd": "mocha --watch",
+    "test": "jest",
+    "tdd": "jest --watch",
     "semantic-release": "semantic-release pre && yarn publish && semantic-release post"
   },
   "keywords": [
@@ -31,10 +31,8 @@
     "directory-tree": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^4.0.1",
-    "chai-files": "^1.4.0",
     "cz-conventional-changelog": "^2.0.0",
-    "mocha": "^5.0.0",
+    "jest": "^23.5.0",
     "semantic-release": "^8.2.0"
   },
   "config": {

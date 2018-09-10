@@ -1,13 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const chai = require('chai');
-const chaiFiles = require('chai-files');
-const { file } = chaiFiles;
-
 const indexifier = require('../');
-
-chai.use(chaiFiles);
-chai.should();
 
 const fixturesDir = path.join(__dirname, 'fixtures');
 
@@ -16,23 +9,23 @@ describe('indexifier', () => {
         const dir = path.join(fixturesDir, '1');
         it('as-is', () => {
             const ret = indexifier(dir);
-            ret.should.be.equal(file('test/fixtures/1.txt'));
+            expect(ret).toMatchSnapshot();
         });
 
         it('filtered by extensions', () => {
             const ret = indexifier(dir, { fileTypes: ['.html'] });
-            ret.should.be.equal(file('test/fixtures/1.filtered.txt'));
+            expect(ret).toMatchSnapshot();
         });
 
         describe('html', () => {
             it('to HTML', () => {
                 const ret = indexifier(dir, { isHtml: true });
-                ret.should.be.equal(file('test/fixtures/1.html'));
+                expect(ret).toMatchSnapshot();
             });
 
             it('w/o linking folders', () => {
                 const ret = indexifier(dir, { isHtml: true, linkFolders: false });
-                ret.should.be.equal(file('test/fixtures/1-no-link-folders.html'));
+                expect(ret).toMatchSnapshot();
             });
         });
     });
@@ -41,6 +34,6 @@ describe('indexifier', () => {
         const ret = indexifier(dir, {
             exclude: 'node_modules|a.txt',
         });
-        ret.should.be.equal(file('test/fixtures/2.ignored.txt'));
+        expect(ret).toMatchSnapshot();
     });
 });
