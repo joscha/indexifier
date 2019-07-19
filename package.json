@@ -31,7 +31,7 @@
     "directory-tree": "^2.0.0"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^2.0.0",
+    "cz-conventional-changelog": "^3.0.0",
     "jest": "^23.5.0",
     "semantic-release": "^11.0.2"
   },
