@@ -17,6 +17,11 @@ describe('indexifier', () => {
             expect(ret).toMatchSnapshot();
         });
 
+        it('limited to maxDepth of 1', () => {
+            const ret = indexifier(fixturesDir, { maxDepth: 1 });
+            expect(ret).toMatchSnapshot();
+        });
+
         describe('html', () => {
             it('to HTML', () => {
                 const ret = indexifier(dir, { isHtml: true });

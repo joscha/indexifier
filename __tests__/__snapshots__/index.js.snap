@@ -90,3 +90,11 @@ exports[`indexifier should be able to transform a directory structure html w/o l
 </html>
 "
 `;
+
+exports[`indexifier should be able to transform a directory structure limited to maxDepth of 1 1`] = `
+"fixtures
+├── 1
+├── 2
+└── 3
+"
+`;
