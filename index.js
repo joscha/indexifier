@@ -13,7 +13,12 @@ const defaultOpts = {
     linkFolders: true,
     exclude: undefined,
     emptyDirectories: true,
+    maxDepth: Infinity,
 };
+
+function filterToMaxDepth(tree, maxDepth) {
+    
+}
 
 function filterEmptyDirectories(tree) {
     if (tree.children && tree.children.length > 0) {
@@ -46,7 +51,7 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { exclude, fileTypes, isHtml, linkFolders, emptyDirectories } = Object.assign({}, defaultOpts, opts);
+    const { exclude, fileTypes, isHtml, linkFolders, emptyDirectories, maxDepth } = Object.assign({}, defaultOpts, opts);
 
     let tree = dirTree(dir, {
         exclude: exclude
@@ -57,6 +62,9 @@ module.exports = (dir, opts) => {
             : undefined,
     });
 
+    if (maxDepth !== Infinity) {
+        filterToMaxDepth(tree, maxDepth);
+    }
     if (!emptyDirectories) {
         filterEmptyDirectories(tree);
     }
