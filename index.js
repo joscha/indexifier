@@ -17,6 +17,11 @@ const defaultOpts = {
     maxDepth: Infinity,
 };
 
+/**
+ * Remove all tree nodes below a given depth.
+ * @param {*} tree 
+ * @param {*} maxDepth 
+ */
 function filterToMaxDepth(tree, maxDepth) {
     if (tree.children && tree.children.length > 0) {
         if (maxDepth <= 0) {
@@ -39,7 +44,6 @@ function filterToMaxDepth(tree, maxDepth) {
 function filterIncluded(tree, regexp) {
     if (!tree || !regexp.test(tree.name)) {
         return false;
-    } else {
     }
     if (tree.children && tree.children.length > 0) {
         tree.children = tree.children.filter(child => filterIncluded(child, regexp));
