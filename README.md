@@ -22,11 +22,13 @@ Options:
 
   -h, --help                  output usage information
   -V, --version               output the version number
-  -e, --extensions <list>     The extensions to take into account; defaults to .htm,.html
-  -E, --exclude <regexp>      Exclude files and directories that are matched by this regular expression
+  -e, --extensions <list>     The extensions to take into account (defaults to .htm,.html)
+  -I, --include <regexp>      Include files and directories that are matched by this regular expression (defaults to all)
+  -E, --exclude <regexp>      Exclude files and directories that are matched by this regular expression (defaults to none)
   -H, --html                  Enable to generate HTML output
   -L, --no-link-folders       Do not link folders when in HTML output mode
   -F, --no-empty-directories  Do not include empty directories
+  -D, --max-depth             Limit results to a maximum sub-directory depth
 ```
 
 #### Install
@@ -71,10 +73,13 @@ indexifier --extensions .html --html .
 
 ```
 indexifier(String directory [, opts={
-                                     fileTypes: Array.<String>
+                                     fileTypes: Array.<String>,
+                                     include=undefined: Regexp,
+                                     exclude=undefined: Regexp,
                                      isHtml=false: Boolean,
-                                     linkFolders=true: Boolean
-                                     emptyFolders=true: Boolean
+                                     linkFolders=true: Boolean,
+                                     emptyFolders=true: Boolean,
+                                     maxDepth=Infinity: Number,
                                     }]);
 ```
 
