@@ -9,7 +9,7 @@
 function filterToMaxDepth(tree, maxDepth) {
   if (tree.children && tree.children.length > 0) {
       if (maxDepth <= 0) {
-          tree.children = []
+          tree.children = [];
       } else {
           tree.children.forEach(child => {
               if (child.type === 'directory') {
