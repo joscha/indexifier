@@ -18,13 +18,13 @@ describe('indexifier', () => {
                 expect(ret).toMatchSnapshot();
             });
 
-            it('by glob', () => {
-                const ret = indexifier(dir, { include: 'a*' });
+            it('by regexp', () => {
+                const ret = indexifier(dir, { fileTypes: [], include: '^a.(.+)$' });
                 expect(ret).toMatchSnapshot();
             });
 
-            it('by extentions and glob', () => {
-                const ret = indexifier(dir, { fileTypes: ['.html'], include: 'a*' });
+            it('by extentions and regexp', () => {
+                const ret = indexifier(dir, { fileTypes: ['.html'], include: '^a.(.+)$' });
                 expect(ret).toMatchSnapshot();
             });
         });
