@@ -12,9 +12,21 @@ describe('indexifier', () => {
             expect(ret).toMatchSnapshot();
         });
 
-        it('filtered by extensions', () => {
-            const ret = indexifier(dir, { fileTypes: ['.html'] });
-            expect(ret).toMatchSnapshot();
+        describe('with filtering', () => {
+            it('by extensions', () => {
+                const ret = indexifier(dir, { fileTypes: ['.html'] });
+                expect(ret).toMatchSnapshot();
+            });
+
+            it('by regexp', () => {
+                const ret = indexifier(dir, { fileTypes: [], include: '^a.(.+)$' });
+                expect(ret).toMatchSnapshot();
+            });
+
+            it('by extentions and regexp', () => {
+                const ret = indexifier(dir, { fileTypes: ['.html'], include: '^a.(.+)$' });
+                expect(ret).toMatchSnapshot();
+            });
         });
 
         it('limited to maxDepth of 1', () => {

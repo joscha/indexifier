@@ -11,6 +11,7 @@ const defaultOpts = {
     fileTypes: null,
     isHtml: false,
     linkFolders: true,
+    include: undefined,
     exclude: undefined,
     emptyDirectories: true,
     maxDepth: Infinity,
@@ -30,6 +31,22 @@ function filterToMaxDepth(tree, maxDepth) {
     }
 }
 
+/**
+ * Remove files and directories from tree that don't match regexp
+ * @param {dirTree} tree 
+ * @param {Regexp} regexp
+ */
+function filterIncluded(tree, regexp) {
+    if (!tree || !regexp.test(tree.name)) {
+        return false;
+    } else {
+    }
+    if (tree.children && tree.children.length > 0) {
+        tree.children = tree.children.filter(child => filterIncluded(child, regexp));
+    }
+    return true;
+}
+
 function filterEmptyDirectories(tree) {
     if (tree.children && tree.children.length > 0) {
         tree.children.forEach(child => {
@@ -47,6 +64,7 @@ function filterEmptyDirectories(tree) {
 * @param {!String} dir The directory to use as the start (this will be the root node of the tree)
 * @param {Object} [opts] An object which supports the following options:
 *                        {Array.<String>} fileTypes The file types to print. Defaults to all file types.
+*                        {RegExp|undefined} include A regular expression matching files/directories to include.
 *                        {RegExp|undefined} exclude A regular expression matching files/directories to exclude.
 *                        {Boolean} isHtml Whether to produce HTML output. Defaults to false.
 *                        {Boolean} linkFolders Link folders when in HTML output mode. Defaults to true.
@@ -64,7 +82,7 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { exclude, fileTypes, isHtml, linkFolders, emptyDirectories, maxDepth } = Object.assign({}, defaultOpts, opts);
+    const { include, exclude, fileTypes, isHtml, linkFolders, emptyDirectories, maxDepth } = Object.assign({}, defaultOpts, opts);
 
     let tree = dirTree(dir, {
         exclude: exclude
@@ -77,6 +95,10 @@ module.exports = (dir, opts) => {
 
     if (maxDepth !== Infinity) {
         filterToMaxDepth(tree, maxDepth);
+    }
+    if (include) {
+        // Don't filter out the top level (cwd)
+        tree.children = tree.children.filter(child => filterIncluded(child, new RegExp(include)));
     }
     if (!emptyDirectories) {
         filterEmptyDirectories(tree);
