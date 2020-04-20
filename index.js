@@ -49,6 +49,7 @@ function filterEmptyDirectories(tree) {
 *                        {Array.<String>} fileTypes The file types to print. Defaults to all file types.
 *                        {RegExp|undefined} exclude A regular expression matching files/directories to exclude.
 *                        {Boolean} isHtml Whether to produce HTML output. Defaults to false.
+*                        {Number} maxDepth Limit results to a maximum sub-directory depth. Defaults to Infinity.
 * @return {String} A unicode string containing a directory tree
 */
 module.exports = (dir, opts) => {
