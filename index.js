@@ -19,8 +19,11 @@ const defaultOpts = {
 
 /**
  * Remove all tree nodes below a given depth.
- * @param {*} tree 
- * @param {*} maxDepth 
+ * Note: This feature can be inefficient due to this filtering taking place on a complete directory tree,
+ * compared to filtering while building the dirTree in the first place.
+ * To fix we would need to add this feature to directory-tree instead.
+ * @param {dirTree} tree A directory tree
+ * @param {number} maxDepth Maximum depth of files/directories to include in tree
  */
 function filterToMaxDepth(tree, maxDepth) {
     if (tree.children && tree.children.length > 0) {
@@ -37,9 +40,12 @@ function filterToMaxDepth(tree, maxDepth) {
 }
 
 /**
- * Remove files and directories from tree that don't match regexp
- * @param {dirTree} tree 
- * @param {Regexp} regexp
+ * Remove files and directories from tree that don't match regexp.
+ * Note: This feature can be inefficient due to this filtering taking place on a complete directory tree,
+ * compared to filtering while building the dirTree in the first place.
+ * To fix we would need to add this feature to directory-tree instead.
+ * @param {dirTree} tree A directory tree
+ * @param {Regexp} regexp Regexp to match nodes against
  */
 function filterIncluded(tree, regexp) {
     if (!tree || !regexp.test(tree.name)) {
