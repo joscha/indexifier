@@ -16,6 +16,7 @@ program
   .option('-L, --no-link-folders', 'Do not link folders when in HTML output mode')
   .option('-F, --no-empty-directories', 'Do not include empty directories')
   .option('-E, --exclude <regexp>', 'Exclude files and directories that are matched by this regular expression')
+  .option('-D, --max-depth <number>', 'Limit results to a maximum sub-directory depth')
   .action((dir) => {
     try {
       console.log(indexifier(dir, {
@@ -23,6 +24,7 @@ program
           fileTypes: program.extensions,
           isHtml: program.html,
           linkFolders: program.linkFolders,
+          maxDepth: program.maxDepth,
       }));
     } catch(e) {
       console.error(e.message);
