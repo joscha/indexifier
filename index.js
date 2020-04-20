@@ -3,11 +3,10 @@ const fs = require('fs');
 const dirTree = require('directory-tree');
 const archy = require('archy');
 
+const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
 const dirTreeToArchyTree = require('./dirTreeToArchyTree');
 const wrapHtml = require('./wrapHtml');
 const { DirectoryInvalidError } = require('./exceptions');
-
-const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
 
 const defaultOpts = {
     fileTypes: null,
