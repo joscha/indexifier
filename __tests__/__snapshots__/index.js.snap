@@ -30,15 +30,6 @@ exports[`indexifier should be able to transform a directory structure as-is 1`] 
 "
 `;
 
-exports[`indexifier should be able to transform a directory structure filtered by extensions 1`] = `
-"1
-├─┬ A
-│ └── c.html
-├── a.html
-└── b.html
-"
-`;
-
 exports[`indexifier should be able to transform a directory structure html to HTML 1`] = `
 "<!doctype html>
 <html>
@@ -88,5 +79,27 @@ exports[`indexifier should be able to transform a directory structure html w/o l
         </pre>
     </body>
 </html>
+"
+`;
+
+exports[`indexifier should be able to transform a directory structure with filtering by extensions 1`] = `
+"1
+├─┬ A
+│ └── c.html
+├── a.html
+└── b.html
+"
+`;
+
+exports[`indexifier should be able to transform a directory structure with filtering by extentions and regexp 1`] = `
+"1
+└── a.html
+"
+`;
+
+exports[`indexifier should be able to transform a directory structure with filtering by regexp 1`] = `
+"1
+├── a.html
+└── a.txt
 "
 `;

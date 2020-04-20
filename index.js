@@ -22,7 +22,14 @@ const defaultOpts = {
  * @param {Regexp} regexp
  */
 function filterIncluded(tree, regexp) {
-    
+    if (!tree || !regexp.test(tree.name)) {
+        return false;
+    } else {
+    }
+    if (tree.children && tree.children.length > 0) {
+        tree.children = tree.children.filter(child => filterIncluded(child, regexp));
+    }
+    return true;
 }
 
 function filterEmptyDirectories(tree) {
@@ -69,7 +76,8 @@ module.exports = (dir, opts) => {
     });
 
     if (include) {
-        filterIncluded(tree, new RegExp(include));
+        // Don't filter out the top level (cwd)
+        tree.children = tree.children.filter(child => filterIncluded(child, new RegExp(include)));
     }
     if (!emptyDirectories) {
         filterEmptyDirectories(tree);
