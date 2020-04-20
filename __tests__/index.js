@@ -12,9 +12,21 @@ describe('indexifier', () => {
             expect(ret).toMatchSnapshot();
         });
 
-        it('filtered by extensions', () => {
-            const ret = indexifier(dir, { fileTypes: ['.html'] });
-            expect(ret).toMatchSnapshot();
+        describe('with filtering', () => {
+            it('by extensions', () => {
+                const ret = indexifier(dir, { fileTypes: ['.html'] });
+                expect(ret).toMatchSnapshot();
+            });
+
+            it('by glob', () => {
+                const ret = indexifier(dir, { include: 'a*' });
+                expect(ret).toMatchSnapshot();
+            });
+
+            it('by extentions and glob', () => {
+                const ret = indexifier(dir, { fileTypes: ['.html'], include: 'a*' });
+                expect(ret).toMatchSnapshot();
+            });
         });
 
         describe('html', () => {
