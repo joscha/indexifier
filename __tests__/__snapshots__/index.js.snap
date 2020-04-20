@@ -87,6 +87,8 @@ exports[`indexifier should be able to transform a directory structure limited to
 ├── 1
 ├── 2
 └── 3
+"
+`;
 
 exports[`indexifier should be able to transform a directory structure with filtering by extensions 1`] = `
 "1
