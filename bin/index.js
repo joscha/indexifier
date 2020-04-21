@@ -15,14 +15,18 @@ program
   .option('-H, --html', 'Enable to generate HTML output')
   .option('-L, --no-link-folders', 'Do not link folders when in HTML output mode')
   .option('-F, --no-empty-directories', 'Do not include empty directories')
+  .option('-I, --include <regexp>', 'Include files and directories that are matched by this regular expression')
   .option('-E, --exclude <regexp>', 'Exclude files and directories that are matched by this regular expression')
+  .option('-D, --max-depth <number>', 'Limit results to a maximum sub-directory depth')
   .action((dir) => {
     try {
       console.log(indexifier(dir, {
+          include: program.include,
           exclude: program.exclude,
           fileTypes: program.extensions,
           isHtml: program.html,
           linkFolders: program.linkFolders,
+          maxDepth: program.maxDepth,
       }));
     } catch(e) {
       console.error(e.message);
