@@ -25,13 +25,13 @@
   "license": "MIT",
   "dependencies": {
     "archy": "^1.0.0",
-    "commander": "^3.0.0",
+    "commander": "^5.0.0",
     "create-error": "^0.3.1",
-    "directory-tree": "^2.0.0"
+    "directory-tree": "^2.2.4"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^2.0.0",
-    "jest": "^23.5.0",
+    "cz-conventional-changelog": "^3.1.0",
+    "jest": "^25.4.0",
     "semantic-release": "^17.0.6"
   },
   "config": {
