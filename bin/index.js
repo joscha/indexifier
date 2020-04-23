@@ -21,10 +21,10 @@ program
   .action((dir) => {
     try {
       console.log(indexifier(dir, {
-          include: program.include,
-          exclude: program.exclude,
           emptyDirectories: program.emptyDirectories,
+          exclude: program.exclude,        
           fileTypes: program.extensions,
+          include: program.include,        
           isHtml: program.html,
           linkFolders: program.linkFolders,
           maxDepth: program.maxDepth,
