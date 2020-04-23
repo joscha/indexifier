@@ -23,6 +23,7 @@ program
       console.log(indexifier(dir, {
           include: program.include,
           exclude: program.exclude,
+          emptyDirectories: program.emptyDirectories,
           fileTypes: program.extensions,
           isHtml: program.html,
           linkFolders: program.linkFolders,
