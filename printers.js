@@ -3,6 +3,9 @@ const archy = require('archy');
 const wrapHref = require('./wrapHref');
 const wrapHtml = require('./wrapHtml');
 
+/**
+ * Base printer class. Cannot be implemented directly.
+ */
 class AbstractPrinter {
     constructor() {
         if (this.constructor === AbstractPrinter) {
@@ -29,12 +32,45 @@ class AbstractPrinter {
     }
 }
 
-class MarkdownPrinter extends AbstractPrinter {
+/**
+ * Prints the tree as simply as possible
+ * 
+ * Example:
+ * ```
+ *   ├─┬ A
+ *   │ └── c.html
+ *   ├── a.html
+ *   ├── a.txt
+ *   └── b.html
+ * ```
+ */
+class PlainTextPrinter extends AbstractPrinter {
     printNode(node) {
         return node.name;
     }
 }
 
+/**
+ * Prints the tree as an HTML document, with the tree printed
+ * inside a <pre> element.
+ * 
+ * Example (simplified):
+ * ```
+ *   <!doctype html>
+ *   <html>
+ *       <body>
+ *           <pre>
+ *   <a href=\\"./\\">1</a>
+ *   ├─┬ <a href=\\"./A\\">A</a>
+ *   │ └── <a href=\\"./A/c.html\\">c.html</a>
+ *   ├── <a href=\\"./a.html\\">a.html</a>
+ *   ├── <a href=\\"./a.txt\\">a.txt</a>
+ *   └── <a href=\\"./b.html\\">b.html</a>
+ *           </pre>
+ *       </body>
+ *   </html>
+ * ```
+ */
 class HtmlPrinter extends AbstractPrinter {
     constructor(cwd, linkFolders) {
         super();
@@ -56,4 +92,4 @@ class HtmlPrinter extends AbstractPrinter {
     }
 }
 
-module.exports = { AbstractPrinter, MarkdownPrinter, HtmlPrinter };
+module.exports = { AbstractPrinter, PlainTextPrinter, HtmlPrinter };

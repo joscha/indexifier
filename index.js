@@ -4,7 +4,7 @@ const dirTree = require('directory-tree');
 
 const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
 const { DirectoryInvalidError } = require('./exceptions');
-const { HtmlPrinter, MarkdownPrinter } = require('./printers');
+const { HtmlPrinter, PlainTextPrinter } = require('./printers');
 
 const defaultOpts = {
     fileTypes: null,
@@ -65,17 +65,24 @@ module.exports = (dir, opts) => {
     return printer.print(tree);
 }
 
-function normaliseOpts(dir, optsFromUser) {
-    const opts = Object.assign({}, defaultOpts, optsFromUser);
+function normaliseOpts(dir, userOpts) {
+    checkOpts(userOpts);
 
-    if (opts.printer && opts.isHtml) {
-        throw new Error('');
-    }
+    const opts = Object.assign({}, defaultOpts, userOpts);
     opts.printer = opts.printer != null ? opts.printer : getPrinter(dir, opts);
 
     return opts;
 }
 
+function checkOpts(opts) {
+    if (opts && opts.printer && opts.isHtml) {
+        throw new Error('cannot specify both the printer and isHtml options at the same time');
+    }
+    if (opts && opts.printer && opts.linkFolders) {
+        throw new Error('cannot specify both the printer and linkFolders options at the same time');
+    }
+}
+
 function getPrinter(dir, opts) {
-    return opts.isHtml ? new HtmlPrinter(dir, opts.linkFolders) : new MarkdownPrinter();
+    return opts.isHtml ? new HtmlPrinter(dir, opts.linkFolders) : new PlainTextPrinter();
 }
