@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const indexifier = require('../');
+const { AbstractPrinter } = require('../printers');
 
 const fixturesDir = path.join(__dirname, 'fixtures');
 
@@ -58,4 +59,13 @@ describe('indexifier', () => {
         expect(indexifier(dir, { fileTypes: ['.html'] })).toMatchSnapshot();
         expect(indexifier(dir, { fileTypes: ['.html'], emptyDirectories: false })).toMatchSnapshot();
     });
+    it('can pass own printer', () => {
+        class PrinterForTesting extends AbstractPrinter {
+            printNode(node) {
+                return 'test: ' + node.name;
+            }
+        }
+        const dir = path.join(fixturesDir, '1');
+        expect(indexifier(dir, { printer: new PrinterForTesting() })).toMatchSnapshot();
+    })
 });

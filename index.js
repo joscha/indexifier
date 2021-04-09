@@ -1,12 +1,10 @@
 const fs = require('fs');
 
 const dirTree = require('directory-tree');
-const archy = require('archy');
 
 const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
 const { DirectoryInvalidError } = require('./exceptions');
-const wrapHref = require('./wrapHref');
-const wrapHtml = require('./wrapHtml');
+const { HtmlPrinter, MarkdownPrinter } = require('./printers');
 
 const defaultOpts = {
     fileTypes: null,
@@ -16,6 +14,7 @@ const defaultOpts = {
     exclude: undefined,
     emptyDirectories: true,
     maxDepth: Infinity,
+    printer: null,
 };
 
 /**
@@ -66,61 +65,17 @@ module.exports = (dir, opts) => {
     return printer.print(tree);
 }
 
-function normaliseOpts(dir, opts) {
-    const nOpts = Object.assign({}, defaultOpts, opts);
-    nOpts.printer = (nOpts.isHtml) ? new HtmlPrinter(dir, nOpts.linkFolders) : new MarkdownPrinter();
-    return nOpts;
+function normaliseOpts(dir, optsFromUser) {
+    const opts = Object.assign({}, defaultOpts, optsFromUser);
+
+    if (opts.printer && opts.isHtml) {
+        throw new Error('');
+    }
+    opts.printer = opts.printer != null ? opts.printer : getPrinter(dir, opts);
+
+    return opts;
 }
 
-class AbstractPrinter {
-    constructor() {
-        if (this.constructor === AbstractPrinter) {
-            throw new Error('AbstractPrinter is abstract and cannot be constructed directly');
-        }
-    }
-
-    _dirTreeToArchyTree(node) {
-        if (!node.children) {
-            return this.printNode(node);
-        }
-        return {
-            label: this.printNode(node),
-            nodes: node.children.map(childNode => this._dirTreeToArchyTree(childNode)),
-        };
-    }
-
-    print(node) {
-        return archy(this._dirTreeToArchyTree(node))
-    }
-
-    printNode(_node) {
-        throw new Error('Printer::printNode is not implemented');
-    }
-}
-
-class MarkdownPrinter extends AbstractPrinter {
-    printNode(node) {
-        return node.name;
-    }
-}
-
-class HtmlPrinter extends AbstractPrinter {
-    constructor(cwd, linkFolders) {
-        super();
-        this.cwd = cwd;
-        this.linkFolders = linkFolders;
-    }
-
-    print(node) {
-        const outTree = super.print(node);
-        return wrapHtml(outTree, node.name);
-    }
-
-    printNode(node) {
-        if (node.children) {
-            // any node that has children is a "folder"
-            return this.linkFolders ? wrapHref(node, this.cwd) : node.name;
-        }
-        return wrapHref(node, this.cwd);
-    }
+function getPrinter(dir, opts) {
+    return opts.isHtml ? new HtmlPrinter(dir, opts.linkFolders) : new MarkdownPrinter();
 }
