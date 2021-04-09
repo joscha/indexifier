@@ -4,7 +4,7 @@ const dirTree = require('directory-tree');
 
 const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
 const { DirectoryInvalidError } = require('./exceptions');
-const { HtmlPrinter, PlainTextPrinter } = require('./printers');
+const { AbstractPrinter, HtmlPrinter, PlainTextPrinter } = require('./printers');
 
 const defaultOpts = {
     fileTypes: null,
@@ -86,3 +86,5 @@ function checkOpts(opts) {
 function getPrinter(dir, opts) {
     return opts.isHtml ? new HtmlPrinter(dir, opts.linkFolders) : new PlainTextPrinter();
 }
+
+module.exports.AbstractPrinter = AbstractPrinter;
