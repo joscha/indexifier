@@ -4,9 +4,9 @@ const dirTree = require('directory-tree');
 const archy = require('archy');
 
 const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
-const dirTreeToArchyTree = require('./dirTreeToArchyTree');
-const wrapHtml = require('./wrapHtml');
 const { DirectoryInvalidError } = require('./exceptions');
+const wrapHref = require('./wrapHref');
+const wrapHtml = require('./wrapHtml');
 
 const defaultOpts = {
     fileTypes: null,
@@ -41,7 +41,7 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { include, exclude, fileTypes, isHtml, linkFolders, emptyDirectories, maxDepth } = Object.assign({}, defaultOpts, opts);
+    const { include, exclude, fileTypes, printer, emptyDirectories, maxDepth } = normaliseOpts(dir, opts);
 
     let tree = dirTree(dir, {
         exclude: exclude
@@ -63,7 +63,64 @@ module.exports = (dir, opts) => {
         filterEmptyDirectories(tree);
     }
 
-    const archyTree = dirTreeToArchyTree(tree, dir, isHtml, linkFolders);
-    const outTree = archy(archyTree);
-    return isHtml ? wrapHtml(outTree, tree.name) : outTree;
+    return printer.print(tree);
+}
+
+function normaliseOpts(dir, opts) {
+    const nOpts = Object.assign({}, defaultOpts, opts);
+    nOpts.printer = (nOpts.isHtml) ? new HtmlPrinter(dir, nOpts.linkFolders) : new MarkdownPrinter();
+    return nOpts;
+}
+
+class AbstractPrinter {
+    constructor() {
+        if (this.constructor === AbstractPrinter) {
+            throw new Error('AbstractPrinter is abstract and cannot be constructed directly');
+        }
+    }
+
+    _dirTreeToArchyTree(node) {
+        if (!node.children) {
+            return this.printNode(node);
+        }
+        return {
+            label: this.printNode(node),
+            nodes: node.children.map(childNode => this._dirTreeToArchyTree(childNode)),
+        };
+    }
+
+    print(node) {
+        return archy(this._dirTreeToArchyTree(node))
+    }
+
+    printNode(_node) {
+        throw new Error('Printer::printNode is not implemented');
+    }
+}
+
+class MarkdownPrinter extends AbstractPrinter {
+    printNode(node) {
+        return node.name;
+    }
+}
+
+class HtmlPrinter extends AbstractPrinter {
+    constructor(cwd, linkFolders) {
+        super();
+        this.cwd = cwd;
+        this.linkFolders = linkFolders;
+    }
+
+    print(node) {
+        const outTree = super.print(node);
+        return wrapHtml(outTree, node.name);
+    }
+
+    printNode(node) {
+        if (node.children) {
+            // any node that has children is a "folder"
+            return this.linkFolders ? wrapHref(node, this.cwd) : node.name;
+        }
+        return wrapHref(node, this.cwd);
+    }
 }
