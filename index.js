@@ -1,12 +1,10 @@
 const fs = require('fs');
 
 const dirTree = require('directory-tree');
-const archy = require('archy');
 
 const { filterToMaxDepth, filterIncluded, filterEmptyDirectories } = require('./dirTreeFilters')
-const dirTreeToArchyTree = require('./dirTreeToArchyTree');
-const wrapHtml = require('./wrapHtml');
 const { DirectoryInvalidError } = require('./exceptions');
+const { AbstractPrinter, HtmlPrinter, PlainTextPrinter } = require('./printers');
 
 const defaultOpts = {
     fileTypes: null,
@@ -16,6 +14,7 @@ const defaultOpts = {
     exclude: undefined,
     emptyDirectories: true,
     maxDepth: Infinity,
+    printer: null,
 };
 
 /**
@@ -41,7 +40,7 @@ module.exports = (dir, opts) => {
     if (!stats.isDirectory()) {
         throw new DirectoryInvalidError(`Given directory "${dir}" is not valid`);
     }
-    const { include, exclude, fileTypes, isHtml, linkFolders, emptyDirectories, maxDepth } = Object.assign({}, defaultOpts, opts);
+    const { include, exclude, fileTypes, printer, emptyDirectories, maxDepth } = normaliseOpts(dir, opts);
 
     let tree = dirTree(dir, {
         exclude: exclude
@@ -63,7 +62,29 @@ module.exports = (dir, opts) => {
         filterEmptyDirectories(tree);
     }
 
-    const archyTree = dirTreeToArchyTree(tree, dir, isHtml, linkFolders);
-    const outTree = archy(archyTree);
-    return isHtml ? wrapHtml(outTree, tree.name) : outTree;
+    return printer.print(tree);
 }
+
+function normaliseOpts(dir, userOpts) {
+    checkOpts(userOpts);
+
+    const opts = Object.assign({}, defaultOpts, userOpts);
+    opts.printer = opts.printer != null ? opts.printer : getPrinter(dir, opts);
+
+    return opts;
+}
+
+function checkOpts(opts) {
+    if (opts && opts.printer && opts.isHtml) {
+        throw new Error('cannot specify both the printer and isHtml options at the same time');
+    }
+    if (opts && opts.printer && opts.linkFolders) {
+        throw new Error('cannot specify both the printer and linkFolders options at the same time');
+    }
+}
+
+function getPrinter(dir, opts) {
+    return opts.isHtml ? new HtmlPrinter(dir, opts.linkFolders) : new PlainTextPrinter();
+}
+
+module.exports.AbstractPrinter = AbstractPrinter;

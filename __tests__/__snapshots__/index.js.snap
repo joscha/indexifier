@@ -20,6 +20,16 @@ exports[`indexifier can ignore folders that do not contain files 2`] = `
 "
 `;
 
+exports[`indexifier can pass own printer 1`] = `
+"test: 1
+├─┬ test: A
+│ └── test: c.html
+├── test: a.html
+├── test: a.txt
+└── test: b.html
+"
+`;
+
 exports[`indexifier should be able to transform a directory structure as-is 1`] = `
 "1
 ├─┬ A
